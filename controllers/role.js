@@ -16,7 +16,8 @@ module.exports = {
         include: [{
           model: User,
           as: 'users',
-          attributes: ['password'],
+          attributes: ['password', 'username'],
+          through: { attributes: [] }
         }],
       })
       .then((role) => {

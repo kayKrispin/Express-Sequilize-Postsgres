@@ -29,7 +29,8 @@ module.exports = {
             model: Role,
             as: 'roles',
             attributes: ['role_name'],
-            required: true
+            required: false,
+            through: { attributes: [] }
           }],
       })
       .then((user) => {
