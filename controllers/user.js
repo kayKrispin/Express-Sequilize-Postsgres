@@ -112,7 +112,7 @@ module.exports = {
 
   update(req, res) {
     return User
-      .findById(req.params.id, {
+      .findByPk(req.params.id, {
         include: [{
           model: Profile,
           as: 'profile'
@@ -141,7 +141,7 @@ module.exports = {
 
   delete(req, res) {
     return User
-      .findById(req.params.id)
+      .findByPk(req.params.id)
       .then(user => {
         if (!user) {
           return res.status(400).send({
