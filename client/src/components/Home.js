@@ -54,7 +54,7 @@ function Home() {
               Password:
               <NavLink to={`/user/${id}`}>
                 <strong> {password} </strong>
-              </NavLink>
+              </NavLink> <br/>
                 Fullname :
               <strong> {profile && profile.fullname} </strong> <br/>
 

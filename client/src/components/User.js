@@ -8,6 +8,9 @@ const User = ({ match }) => {
   const [user, setUser] = useState({});
   const [roles, setRoles] = useState([]);
   const [userBooks, setUserBooks] = useState([]);
+  const [selectedValues, setSelectedValues] = useState([]);
+  const [userRoles, setUserRoles] = useState([]);
+
 
 
   const { TabPane } = Tabs;
@@ -20,25 +23,56 @@ const User = ({ match }) => {
   }, [match.params.id]);
 
   const onChange = value => {
+    setSelectedValues(value);
     setUserBooks(value)
   };
 
+  const addUserRole = id => {
+    const data = {
+      id: id,
+      data: userRoles
+    };
 
-  const addUserBooks = (id) => {
+    api.addUserRoles(data).then(() =>
+      api.getRoles().then((roles) => setRoles(roles))).then(() =>
+      api.getUser(match.params.id).then(user => setUser(user)))
+
+    setUserRoles([])
+  };
+
+  const addUserBooks = id => {
 
     const data = {
       id: id,
       data: userBooks
     };
 
-    api.addUserBooks(data)
+    api.addUserBooks(data).then(() =>
+      api.getUser(match.params.id).then(user => setUser(user)));
+    setSelectedValues([]);
   };
+
+
+  const clearRoles = id => {
+
+    const data = {
+      id: id,
+      data: userBooks
+    };
+
+    api.clearRoles(data);
+    setSelectedValues([]);
+  };
+
 
   const booksSet = books && [...books];
   const userBooksSet = user.books && [...user.books];
 
   const differenceBooks = booksSet && userBooksSet &&
     booksSet.filter((item) => !userBooksSet.find(userBook => item.id === userBook.id));
+
+  const differenceRoles = roles && user.roles &&
+    roles.filter((item) => !user.roles.find(userBook => item.id === userBook.id));
 
   return (
     <div className="user-container">
@@ -67,6 +101,25 @@ const User = ({ match }) => {
                 </List.Item>
           </List>
         </TabPane>
+        <TabPane tab="Roles Info" key="4">
+          <List itemLayout="vertical" className="d-flex" size="large" >
+            {
+              roles && roles.map(({ role_name, users }) => (
+                <List.Item key={role_name}>
+                  Role name:
+                    <strong> {role_name} </strong> <br/>
+                  <strong>Users in this role :  {
+                    users.map(({ password }) =>
+                      <div key={password}>
+                        {password}
+                      </div>)
+                  }
+                  </strong>
+                </List.Item>
+              ))
+            }
+          </List>
+        </TabPane>
         <TabPane tab="Add books" key="2">
           <div>
             <form className="book-form" action="">
@@ -77,6 +130,7 @@ const User = ({ match }) => {
                 style={{ width: '30%' }}
                 placeholder="Please select books"
                 onChange={onChange}
+                value={selectedValues}
               >
                 {
                   differenceBooks && differenceBooks.map(( {id, name, author }) => (
@@ -98,16 +152,20 @@ const User = ({ match }) => {
                 mode="multiple"
                 style={{ width: '30%' }}
                 placeholder="Please select additional roles"
-                onChange={onChange}
+                onChange={(e) => setUserRoles(e)}
+                value={userRoles}
+
               >
                 {
-                  roles.map(( { id, role_name }) => (
+                  differenceRoles && differenceRoles.map(( { id, role_name }) => (
                     <Select.Option value={id} key={id}>{role_name}</Select.Option>
                   ))
                 }
               </Select>
-
-              <Button type="primary" >Add Roles</Button>
+              <div className="btn-container">
+                <Button onClick={() => addUserRole(match.params.id)} type="primary" >Add Roles</Button>
+                <Button onClick={() => clearRoles(match.params.id)} type="primary" >Clear Roles</Button>
+              </div>
             </form>
           </div>
         </TabPane>

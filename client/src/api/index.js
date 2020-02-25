@@ -66,6 +66,38 @@ const addUserBooks = async data => {
   }
 };
 
+const addUserRoles = async data => {
+
+  try {
+    return await fetch(`http://localhost:8080/api/user/addRole/${data.id}`,
+      {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+  } catch (e) {
+    console.log(e)
+  }
+};
+
+const clearRoles = async data => {
+
+  try {
+    return await fetch(`http://localhost:8080/api/user/clearRole/${data.id}`,
+      {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+  } catch (e) {
+    console.log(e)
+  }
+};
+
 const getRoles = async () => {
 
   try {
@@ -84,5 +116,7 @@ export default {
   getBooks,
   getUser,
   getRoles,
-  addUserBooks
+  addUserBooks,
+  addUserRoles,
+  clearRoles
 }

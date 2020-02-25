@@ -33,12 +33,12 @@ module.exports = {
           {
             model: Book,
             as: 'books',
-            attributes: ['name', 'author', 'id']
+            attributes: ['name', 'author', 'id', 'userId']
           },
           {
             model: Role,
             as: 'roles',
-            attributes: ['role_name'],
+            attributes: ['role_name', 'id'],
             required: false,
             through: { attributes: [] }
           }],
@@ -67,23 +67,48 @@ module.exports = {
 
   async addBooks(req, res) {
 
-    const user = await User.findByPk(req.params.id, {
-      attributes: ['password'],
+    const books = await Book.findAll({
+      where: {
+        id: [...req.body.data]
+      }
     });
 
-    user.addBooks([1,2])
+    books.map(async book => {
+      await book.update({ userId: req.params.id })
+    });
 
-    console.log(user)
+    res.send({})
 
-    res.send(user)
-    // return User
-    //   .create({
-    //     username: req.body.username,
-    //     password: req.body.password
-    //   })
-    //   .then((user) => res.status(201).send(user))
-    //   .catch((error) => res.status(400).send(error));
   },
+
+
+  async addRoles(req, res) {
+
+    const user  = await User.findByPk(req.params.id);
+
+    const roles = await Role.findAll({
+      where: {
+        id: [...req.body.data]
+      }
+    });
+
+    user.addRoles(roles);
+
+    res.send(roles)
+
+  },
+
+  async clearRoles(req, res) {
+
+    const user  = await User.findByPk(req.params.id);
+
+    user.setRoles([]);
+
+    res.send(roles)
+
+  },
+
+
 
   update(req, res) {
     return User

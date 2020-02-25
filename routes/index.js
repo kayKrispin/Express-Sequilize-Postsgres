@@ -19,6 +19,9 @@ router.get('/api/user', userController.list);
 router.get('/api/user/:id', userController.getById);
 router.post('/api/user', userController.add);
 router.post('/api/user/:id', userController.addBooks);
+router.post('/api/user/addRole/:id', userController.addRoles);
+router.post('/api/user/clearRole/:id', userController.clearRoles);
+
 
 
 /* Profile Router */

@@ -77,3 +77,10 @@ ul {
 .ant-tabs-tabpane {
   text-align: center;
 }
+
+
+.btn-container {
+  display: flex;
+  justify-content: space-between;
+  width: 13rem;
+}
