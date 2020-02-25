@@ -11,8 +11,6 @@ const User = ({ match }) => {
   const [selectedValues, setSelectedValues] = useState([]);
   const [userRoles, setUserRoles] = useState([]);
 
-
-
   const { TabPane } = Tabs;
 
   useEffect(() => {
@@ -35,7 +33,7 @@ const User = ({ match }) => {
 
     api.addUserRoles(data).then(() =>
       api.getRoles().then((roles) => setRoles(roles))).then(() =>
-      api.getUser(match.params.id).then(user => setUser(user)))
+      api.getUser(match.params.id).then(user => setUser(user)));
 
     setUserRoles([])
   };
