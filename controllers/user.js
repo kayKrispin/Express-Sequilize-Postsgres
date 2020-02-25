@@ -6,7 +6,17 @@ const Book = require('../models').Book;
 module.exports = {
   list(req, res) {
     return User
-      .findAll({attributes: ['password']})
+      .findAll({attributes: ['password', 'id'],   include: [
+          {
+            model: Profile,
+            as: 'profile',
+            attributes: ['fullname']
+          },   {
+            model: Book,
+            as: 'books',
+            attributes: ['name', 'author']
+          }
+          ]})
       .then((users) => res.status(200).send(users))
       .catch((error) => { res.status(400).send(error); });
   },
@@ -23,7 +33,7 @@ module.exports = {
           {
             model: Book,
             as: 'books',
-            attributes: ['name', 'author']
+            attributes: ['name', 'author', 'id']
           },
           {
             model: Role,
@@ -45,6 +55,7 @@ module.exports = {
   },
 
   add(req, res) {
+
     return User
       .create({
         username: req.body.username,
@@ -52,6 +63,26 @@ module.exports = {
       })
       .then((user) => res.status(201).send(user))
       .catch((error) => res.status(400).send(error));
+  },
+
+  async addBooks(req, res) {
+
+    const user = await User.findByPk(req.params.id, {
+      attributes: ['password'],
+    });
+
+    user.addBooks([1,2])
+
+    console.log(user)
+
+    res.send(user)
+    // return User
+    //   .create({
+    //     username: req.body.username,
+    //     password: req.body.password
+    //   })
+    //   .then((user) => res.status(201).send(user))
+    //   .catch((error) => res.status(400).send(error));
   },
 
   update(req, res) {

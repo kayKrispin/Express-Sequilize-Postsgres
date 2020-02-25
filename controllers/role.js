@@ -4,7 +4,7 @@ const User = require('../models').User;
 module.exports = {
   list(req, res) {
     return Role
-      .findAll({attributes: ['role_name']})
+      .findAll({attributes: ['role_name', 'id']})
       .then((roles) => res.status(200).send(roles))
       .catch((error) => { res.status(400).send(error); });
   },
