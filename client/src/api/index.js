@@ -38,6 +38,23 @@ const addUser = async data => {
 };
 
 
+const addUserWithBooks = async data => {
+
+  try {
+    return await fetch("http://localhost:8080/api/user/userWithBooks",
+      {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+  } catch (e) {
+    console.log(e)
+  }
+};
+
+
 const getBooks = async () => {
 
   try {
@@ -118,5 +135,6 @@ export default {
   getRoles,
   addUserBooks,
   addUserRoles,
-  clearRoles
+  clearRoles,
+  addUserWithBooks
 }

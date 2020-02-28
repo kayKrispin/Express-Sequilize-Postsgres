@@ -109,6 +109,32 @@ module.exports = {
   },
 
 
+  async createUserWithBooks(req, res) {
+
+    const { username, password, books } = req.body;
+
+    const userToSave = { username, password };
+
+    if (books) userToSave.books = books;
+
+    let user = {};
+
+    try {
+
+      user = await User.create(userToSave, {
+        include: [
+          { model: Book, as: "books" }
+        ]
+      })
+
+    } catch (e) {
+      throw e;
+    }
+
+    res.send(user)
+
+  },
+
 
   update(req, res) {
     return User
