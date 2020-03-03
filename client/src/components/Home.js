@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import api from "../api";
 import { List, Button, Input, Tabs } from "antd";
-import { useForm, useFieldArray } from "react-hook-form";
+import { useForm, useFieldArray, Controller, ErrorMessage } from "react-hook-form";
 import { NavLink } from "react-router-dom";
 
 function Home() {
@@ -13,12 +13,13 @@ function Home() {
 
   }, []);
 
-  const { register, handleSubmit, setValue, watch, reset, control } = useForm({
+  const { register, handleSubmit, setValue, watch, reset, control, errors } = useForm({
     defaultValues: {
-      books: [{ name: "", author: "", test: "wtf" }],
+      books: [{ title: "", author: "" }],
     },
   }); // initialise the hook
   const { fields, append, remove } = useFieldArray({ control, name: "books" });
+
 
 
   const onSubmit = data => {
@@ -28,8 +29,10 @@ function Home() {
 
   const onSubmitBooks = data => {
     api.addUserWithBooks(data).then(() => api.getUsers(setUsers));
-    reset()
+    // reset()
   };
+
+  console.log(errors)
 
   return (
     <div className="App">
@@ -85,21 +88,32 @@ function Home() {
 
                     return (
                       <div key={item.id} className="mb-1">
-
-                        <Input
-                          ref={register({name: `books[${index}].name`})}
-                          onChange={(e) => setValue(`books[${index}].name`, e.target.value)}
-                          value={watch(`books[${index}].name`)}
-                          placeholder="Book"
+                        <Controller
+                          as={<Input />}
+                          name={`books[${index}].title`}
+                          rules={{ required: true }}
+                          control={control}
+                          placeholder="Name"
+                          defaultValue={item.title}
+                        />
+                        <ErrorMessage
+                          style={{ color: "red" }}
+                          as={"span"} errors={errors}
+                          message="This is required"
+                          name={`books[${index}].title`}
                         />
 
-                        <Input
-                          className="middle-input"
-                          ref={register({name: `books[${index}].author`})}
-                          onChange={(e) => setValue(`books[${index}].author`, e.target.value)}
-                          value={watch(`books[${index}].author`)}
+                        <Controller
+                          as={<Input />}
+                          name={`books[${index}].author`}
+                          control={control}
+                          rules={{ required: true }}
                           placeholder="Author"
+                          defaultValue={item.author}
                         />
+                        <ErrorMessage errors={errors} message="This is required" name={`books[${index}].author`} />
+
+
 
                         <Button style={{ marginBottom: "10px" }} onClick={() => remove(index)}>Remove</Button>
 
