@@ -1,7 +1,7 @@
 const getUsers = async handler => {
 
   try {
-    const response = await fetch("http://localhost:8080/api/user", { method: 'GET' });
+    const response = await fetch("https://gentle-garden-14577.herokuapp.com/api/user", { method: 'GET' });
     const users = await response.json();
     handler(users);
   } catch (e) {
@@ -12,7 +12,7 @@ const getUsers = async handler => {
 const getUser = async id => {
 
   try {
-    const response = await fetch(`http://localhost:8080/api/user/${id}`, { method: 'GET' });
+    const response = await fetch(`https://gentle-garden-14577.herokuapp.com/api/user/${id}`, { method: 'GET' });
     const user = await response.json();
 
     return user;
@@ -24,7 +24,7 @@ const getUser = async id => {
 const addUser = async data => {
 
   try {
-    return await fetch("http://localhost:8080/api/user",
+    return await fetch("https://gentle-garden-14577.herokuapp.com/api/user",
       {
         method: 'POST',
         body: JSON.stringify(data),
@@ -41,7 +41,7 @@ const addUser = async data => {
 const addUserWithBooks = async data => {
 
   try {
-    return await fetch("http://localhost:8080/api/user/userWithBooks",
+    return await fetch("https://gentle-garden-14577.herokuapp.com/api/user/userWithBooks",
       {
         method: 'POST',
         body: JSON.stringify(data),
