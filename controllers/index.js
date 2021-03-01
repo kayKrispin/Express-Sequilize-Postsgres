@@ -5,6 +5,7 @@ const profile = require('./profile');
 const role = require('./role');
 const user = require('./user');
 const book = require('./book');
+const service = require('./service');
 
 
 module.exports = {
@@ -14,5 +15,6 @@ module.exports = {
   book,
   forum,
   reply,
-  topic
+  topic,
+  service
 };

@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const userController = require('../controllers').user;
+const serviceController = require('../controllers').service;
 const profileController = require('../controllers').profile;
 const bookController = require('../controllers').book;
 const roleController = require('../controllers').role;
@@ -13,6 +14,12 @@ const topicController = require('../controllers').topic;
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
+
+/* Service Router */
+router.post('/api/service/', serviceController.create);
+router.get('/api/service/', serviceController.list);
+
+
 
 /* User Router */
 router.post('/api/user/userWithBooks/', userController.createUserWithBooks);
