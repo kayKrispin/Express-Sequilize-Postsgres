@@ -11,10 +11,12 @@ var app = express();
 
 var cors = require("cors");
 
-
 var pg = require('pg');
 //or native libpq bindings
 //var pg = require('pg').native
+
+console.log("Database_URL", process.env.DATABASE_URL);
+
 
 var conString = "postgres://tqwuiusb:zbTpUyKxncCfGNvBkYY-nTmgcKNox1s-@ziggy.db.elephantsql.com:5432/tqwuiusb" //Can be found in the Details page
 var client = new pg.Client(conString);
@@ -65,4 +67,6 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+
 module.exports = app;
+
