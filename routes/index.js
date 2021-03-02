@@ -15,6 +15,16 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
+router.get('/wow', function(req, res, next) {
+  res.render('index', { title: 'neeeee' });
+});
+
+/* Service Router */
+router.post('/api/service/', serviceController.create);
+router.get('/api/service/', serviceController.list);
+
+
+
 /* User Router */
 router.post('/api/user/userWithBooks/', userController.createUserWithBooks);
 router.get('/api/user', userController.list);
