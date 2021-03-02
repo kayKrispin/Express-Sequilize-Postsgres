@@ -9,7 +9,6 @@ const db = {};
 
 let sequelize;
 if (env) {
-  console.log(process.env[config.use_env_variable], "wow")
   sequelize = new Sequelize(process.env[config.use_env_variable], config);
 } else {
   sequelize = new Sequelize(process.env[config.use_env_variable], config);

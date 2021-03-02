@@ -19,6 +19,7 @@ var pg = require('pg');
 var conString = "postgres://tqwuiusb:zbTpUyKxncCfGNvBkYY-nTmgcKNox1s-@ziggy.db.elephantsql.com:5432/tqwuiusb" //Can be found in the Details page
 var client = new pg.Client(conString);
 client.connect(function(err) {
+  console.log(err, "wow")
   if(err) {
     return console.error('could not connect to postgres', err);
   }
