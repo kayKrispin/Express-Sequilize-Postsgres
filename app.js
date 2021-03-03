@@ -15,16 +15,10 @@ var pg = require('pg');
 //or native libpq bindings
 //var pg = require('pg').native
 
-const { Pool } = require('pg');
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: { rejectUnauthorized: false }
-});
-
-
-
 var conString = "postgres://tqwuiusb:zbTpUyKxncCfGNvBkYY-nTmgcKNox1s-@ziggy.db.elephantsql.com:5432/tqwuiusb" //Can be found in the Details page
 var client = new pg.Client(conString);
+console.log(client, "client")
+
 client.connect(function(err) {
   console.log(err, "wow")
   if(err) {
@@ -32,6 +26,7 @@ client.connect(function(err) {
   }
   client.query('SELECT NOW() AS "theTime"', function(err, result) {
     if(err) {
+      console.log(err, "maybe here eeoe")
       return console.error('error running query', err);
     }
     console.log(result.rows[0].theTime);
@@ -41,6 +36,7 @@ client.connect(function(err) {
   });
 });
 
+console.log("after connectiong")
 app.use(cors());
 
 // view engine setup
