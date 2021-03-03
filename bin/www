@@ -10,7 +10,7 @@ var debug = require('debug')('sequilize-second:server');
 var http = require('http');
 
 
-var conString = "postgres://tqwuiusb:zbTpUyKxncCfGNvBkYY-nTmgcKNox1s-@ziggy.db.elephantsql.com:5432/tqwuiusb" //Can be found in the Details page
+var conString = "'postgres://tqwuiusb:zbTpUyKxncCfGNvBkYY-nTmgcKNox1s-@ziggy.db.elephantsql.com:5432/tqwuiusb'" //Can be found in the Details page
 var client = new pg.Client(conString);
 
 /**
